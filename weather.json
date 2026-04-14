@@ -1,0 +1,101 @@
+{
+  "name": "Previsão do tempo por email toda manhã",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 30 7 * * *"
+            }
+          ]
+        }
+      },
+      "id": "51eb0cab-7ed0-4f1b-b592-4b79b11a8932",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        224,
+        -112
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.openweathermap.org/data/2.5/weather?q=Guarapuava,BR&appid=e436f1e13b1868bc10cae9b2043735ab&units=metric&lang=pt_br",
+        "options": {}
+      },
+      "id": "0eb98df5-4bb8-4dcf-b97c-198289a3d7cb",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        512,
+        -112
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "elyabebat@gmail.com",
+        "toEmail": "elyabebat@gmail.com",
+        "subject": "=Previsão do tempo - {{$json[\"name\"]}}",
+        "emailFormat": "text",
+        "text": "=Bom dia!\n\nClima em {{$json[\"name\"]}}:\n- {{$json[\"weather\"][0][\"description\"]}}\n- Temp: {{$json[\"main\"][\"temp\"]}}°C\n- Umidade: {{$json[\"main\"][\"humidity\"]}}%",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        832,
+        -192
+      ],
+      "id": "edd14dd4-e453-47f6-8766-ea6b8a02a0e2",
+      "name": "Send an Email",
+      "webhookId": "fabf94c3-1d49-4e91-a67e-3240636c6412",
+      "credentials": {
+        "smtp": {
+          "id": "ZSx2P0ln4y4IyQVi",
+          "name": "SMTP account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Send an Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "b70c3f52-b903-499d-8cb6-8e2ff97ec83d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "42ce6da6915f9cc527c699a6d6bc33e090dc4f8bf912d7401c60acae753568d3"
+  },
+  "id": "t864b8C6ilsIbmw0",
+  "tags": []
+}
