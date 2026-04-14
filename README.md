@@ -25,13 +25,24 @@ Weather in Guarapuava:
 
 ## Requirements
 
-- [n8n](https://n8n.io) (self-hosted via Docker or n8n Cloud)
-- [OpenWeatherMap API key](https://openweathermap.org/api) (free tier)
-- SMTP credentials configured in n8n (Gmail or any SMTP provider)
+* [n8n](https://n8n.io) (Cloud or self-hosted)
+* [OpenWeatherMap API key](https://openweathermap.org/api) (free tier)
+* SMTP credentials configured in n8n (Gmail or any SMTP provider)
 
 ## Setup
 
-### 1. Run n8n with Docker
+### Option 1 — n8n Cloud (easiest)
+
+1. Create an account at https://n8n.io
+2. Open the n8n editor
+3. Go to **Workflows → Import from file**
+4. Upload `workflow.json`
+5. Configure your API key and email credentials
+6. Activate the workflow
+
+---
+
+### Option 2 — Run n8n locally with Docker
 
 ```bash
 docker run -it --rm \
@@ -42,39 +53,47 @@ docker run -it --rm \
 
 Access `http://localhost:5678` to open the n8n editor.
 
-### 2. Get your OpenWeatherMap API key
+---
 
-1. Create a free account at [openweathermap.org](https://openweathermap.org)
-2. Go to **API keys** in your account dashboard
+### Get your OpenWeatherMap API key
+
+1. Create a free account at https://openweathermap.org
+2. Go to **API keys** in your dashboard
 3. Copy your key
 
-### 3. Import the workflow
+---
+
+### Import the workflow
 
 1. Download [`workflow.json`](./workflow.json) from this repository
 2. In n8n, go to **Workflows → Import from file**
 3. Select the downloaded file
 
-### 4. Configure credentials
+---
 
-- **HTTP Request node**: replace `YOUR_API_KEY` in the URL with your actual OpenWeatherMap key
-- **Send Email node**: connect your SMTP credentials in n8n settings
+### Configure credentials
 
-### 5. Activate the workflow
+* **HTTP Request node**: replace `YOUR_API_KEY` in the URL with your actual OpenWeatherMap key
+* **Send Email node**: connect your SMTP credentials in n8n settings
+
+---
+
+### Activate the workflow
 
 Toggle the workflow to **Active** — it will run automatically every day at 7:30 AM.
 
 ## Workflow file
 
-The exported workflow is available in [`workflow.json`](./workflow.json).  
+The exported workflow is available in [`workflow.json`](./workflow.json).
 Import it directly into any n8n instance to get started.
 
 > The API key has been removed from the exported file. Add your own key before activating.
 
 ## Tech stack
 
-- [n8n](https://n8n.io) — workflow automation
-- [OpenWeatherMap API](https://openweathermap.org/api) — weather data
-- Docker — local environment
+* [n8n](https://n8n.io) — workflow automation
+* [OpenWeatherMap API](https://openweathermap.org/api) — weather data
+* Docker — local environment
 
 ## License
 
